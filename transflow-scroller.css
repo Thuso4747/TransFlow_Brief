@@ -1,0 +1,423 @@
+/* TransFlow scroller: horizontal, scroll-driven story that opens with the logo.
+   Scoped to .ts-scroller so the rest of the site is unaffected. */
+
+.ts-scroller {
+  --ts-ink: #111827;
+  --ts-muted: #4b5563;
+  --ts-navy: #081a64;
+  --ts-lime: #93c03f;
+  --ts-bg: #f5f7fb;
+  --ts-line: #d6dce8;
+  --ts-header: 0px;
+
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  color: var(--ts-ink);
+  background: var(--ts-bg);
+  font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.ts-scroller *,
+.ts-scroller *::before,
+.ts-scroller *::after {
+  box-sizing: border-box;
+}
+
+.ts-section {
+  height: 200vw;
+  width: 100%;
+  position: relative;
+}
+
+.ts-sticky {
+  height: 100vh;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  /* Keep the story below the site header and centre it in the space that is left. */
+  padding-top: var(--ts-header);
+  overflow: hidden;
+}
+
+.ts-track {
+  display: flex;
+  align-items: center;
+  gap: 5vw;
+  padding: 0 5vw;
+  height: 30vw;
+  width: max-content;
+  margin-right: 2vw;
+  flex: none;
+}
+
+/* Opening panel: logo and a short explanation */
+.ts-intro {
+  flex: none;
+  width: 30vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4vw;
+}
+
+/* Logo: fixed at the top centre, so it stays in place while the story scrolls. */
+.ts-logo {
+  position: fixed;
+  top: 1.5vw;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: block;
+  width: 24vw;
+  max-width: 340px;
+  height: auto;
+  pointer-events: none;
+}
+
+.ts-intro-title {
+  margin: 0;
+  font-size: 2.3vw;
+  line-height: 1.05;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+
+.ts-intro p {
+  margin: 0;
+  font-size: 1.25vw;
+  line-height: 1.4;
+  color: var(--ts-muted);
+}
+
+/* Timeline */
+.ts-timeline {
+  position: relative;
+  flex: none;
+  height: 100%;
+  width: 215vw;
+}
+
+.ts-axis {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.ts-dot {
+  flex: none;
+  width: 0.8vw;
+  height: 0.8vw;
+  border-radius: 999px;
+  background: var(--ts-navy);
+}
+
+.ts-progress {
+  position: relative;
+  flex: none;
+  height: 2px;
+  width: 0%;
+  border-radius: 999px;
+  background: var(--ts-lime);
+}
+
+/* The bus stays on screen and moves across as the story scrolls. */
+.ts-bus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  display: flex;
+  color: var(--ts-navy);
+  line-height: 0;
+  pointer-events: none;
+}
+
+.ts-bus-icon {
+  display: block;
+  width: 2.6vw;
+  height: 2.6vw;
+}
+
+.ts-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5vw;
+  height: 50%;
+  width: 100%;
+}
+
+.ts-title-block {
+  flex: none;
+  width: 20%;
+  height: 100%;
+  padding-top: 2vw;
+}
+
+.ts-title {
+  width: 65%;
+  margin: 0;
+  font-size: 3vw;
+  line-height: 0.95;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+
+.ts-top-items,
+.ts-bottom-items {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.ts-top-items {
+  gap: 15vw;
+}
+
+.ts-item {
+  position: relative;
+  flex: none;
+  height: 100%;
+  width: 30vw;
+  padding: 0 3vw;
+}
+
+.ts-axis-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ts-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1vw;
+  height: 1vw;
+  border-radius: 999px;
+  background: var(--ts-navy);
+  transform: translate(-50%, -50%);
+}
+
+.ts-item-bottom .ts-node {
+  top: auto;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+}
+
+/* Stems and the progress line share one 2px width, and meet the timeline at its centre. */
+.ts-stem {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ts-navy);
+}
+
+.ts-stem-top {
+  transform-origin: bottom;
+}
+
+.ts-copy-top {
+  margin-top: -1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+}
+
+.ts-label {
+  margin: 0;
+  font-size: 2.5vw;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+
+.ts-text {
+  margin: 0;
+  width: 90%;
+  font-size: 1.5vw;
+  line-height: 1.3;
+  color: var(--ts-muted);
+}
+
+.ts-item-bottom .ts-text {
+  width: 100%;
+}
+
+.ts-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50%;
+  width: 100%;
+}
+
+.ts-period {
+  flex: none;
+  width: 34%;
+  height: 100%;
+  padding-top: 2vw;
+}
+
+.ts-period p {
+  margin: 0;
+  font-size: 1.65vw;
+  line-height: 1;
+  color: var(--ts-muted);
+}
+
+.ts-bottom-items {
+  gap: 20vw;
+  margin-left: 20vw;
+}
+
+.ts-item-bottom {
+  position: relative;
+  flex: none;
+  height: 100%;
+  width: 25vw;
+  padding: 0 3vw;
+}
+
+.ts-axis-bottom {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.ts-stem-bottom {
+  transform-origin: top;
+}
+
+.ts-copy-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1vw;
+  height: 100%;
+  width: 100%;
+}
+
+
+/* Phones: vertical scroll drives a horizontal story, with larger text and touch-sized nodes. */
+@media (max-width: 600px) {
+  .ts-section {
+    height: 400vh;
+  }
+
+  .ts-scroller {
+    --ts-header: 0px;
+  }
+
+  .ts-track {
+    height: 64vh;
+    padding: 0 7vw;
+  }
+
+  .ts-intro {
+    width: 85vw;
+    height: auto;
+    gap: 4vw;
+  }
+
+  .ts-logo {
+    top: 14px;
+    width: 62vw;
+    max-width: 300px;
+  }
+
+  .ts-intro-title {
+    font-size: 7vw;
+  }
+
+  .ts-intro p {
+    font-size: 4.2vw;
+  }
+
+    .ts-timeline {
+    width: 510vw;
+  }
+
+  .ts-title-block {
+    height: fit-content;
+    padding-top: 5vw;
+  }
+
+  .ts-title {
+    font-size: 8.5vw;
+  }
+
+  .ts-top-items {
+    gap: 40vw;
+  }
+
+  .ts-item {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    padding: 0 7vw;
+  }
+
+  .ts-node {
+    width: 2.5vw;
+    height: 2.5vw;
+  }
+
+  .ts-bus-icon {
+    width: 6.5vw;
+    height: 6.5vw;
+  }
+
+  .ts-copy-top {
+    margin-top: -2vw;
+  }
+
+  .ts-label {
+    font-size: 6.4vw;
+  }
+
+  .ts-text {
+    font-size: 4.8vw;
+    width: 90%;
+  }
+
+  .ts-period {
+    width: 30%;
+    padding-top: 5vw;
+  }
+
+  .ts-period p {
+    font-size: 4.2vw;
+  }
+
+  .ts-bottom-items {
+    gap: 40vw;
+    margin-left: 60vw;
+  }
+
+  .ts-item-bottom {
+    width: 70vw;
+    padding: 0 7vw;
+  }
+
+}
+
